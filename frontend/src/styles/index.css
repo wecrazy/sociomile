@@ -1,0 +1,10 @@
+@import "./base.css";
+@import "./shell.css";
+@import "./dashboard.css";
+@import "./lists.css";
+@import "./auth.css";
+@import "./settings.css";
+@import "./detail.css";
+@import "./toast.css";
+@import "./motion.css";
+@import "./responsive.css";

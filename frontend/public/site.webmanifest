@@ -1,0 +1,24 @@
+{
+  "name": "Sociomile",
+  "short_name": "Sociomile",
+  "description": "Multi-tenant support orchestration workspace for conversations, tickets, and operator workflows.",
+  "id": "/",
+  "start_url": "/",
+  "display": "standalone",
+  "background_color": "#efe8dd",
+  "theme_color": "#0f766e",
+  "icons": [
+    {
+      "src": "/icon-192.png",
+      "sizes": "192x192",
+      "type": "image/png",
+      "purpose": "any"
+    },
+    {
+      "src": "/icon-512.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "any"
+    }
+  ]
+}

@@ -1,0 +1,125 @@
+version: "3.9"
+
+services:
+  mysql:
+    image: docker.io/mysql:8.4
+    environment:
+      MYSQL_DATABASE: ${MYSQL_DATABASE:?missing MYSQL_DATABASE in .env}
+      MYSQL_USER: ${MYSQL_USER:?missing MYSQL_USER in .env}
+      MYSQL_PASSWORD: ${MYSQL_PASSWORD:?missing MYSQL_PASSWORD in .env}
+      MYSQL_ROOT_PASSWORD: ${MYSQL_ROOT_PASSWORD:?missing MYSQL_ROOT_PASSWORD in .env}
+    ports:
+      - "${MYSQL_PORT:?missing MYSQL_PORT in .env}:3306"
+    volumes:
+      - mysql_data:/var/lib/mysql
+    healthcheck:
+      test:
+        [
+          "CMD",
+          "mysqladmin",
+          "ping",
+          "-h",
+          "127.0.0.1",
+          "-uroot",
+          "-p${MYSQL_ROOT_PASSWORD:?missing MYSQL_ROOT_PASSWORD in .env}",
+        ]
+      interval: 10s
+      timeout: 5s
+      retries: 10
+
+  redis:
+    image: docker.io/redis:7.4-alpine
+    command: ["redis-server", "--save", "", "--appendonly", "no"]
+    ports:
+      - "${REDIS_PORT:?missing REDIS_PORT in .env}:6379"
+    healthcheck:
+      test: ["CMD", "redis-cli", "ping"]
+      interval: 10s
+      timeout: 5s
+      retries: 10
+
+  rabbitmq:
+    image: docker.io/rabbitmq:3.13-management-alpine
+    hostname: rabbitmq
+    user: "999:999"
+    environment:
+      RABBITMQ_DEFAULT_USER: ${RABBITMQ_DEFAULT_USER:?missing RABBITMQ_DEFAULT_USER in .env}
+      RABBITMQ_DEFAULT_PASS: ${RABBITMQ_DEFAULT_PASS:?missing RABBITMQ_DEFAULT_PASS in .env}
+    ports:
+      - "${RABBITMQ_PORT:?missing RABBITMQ_PORT in .env}:5672"
+      - "${RABBITMQ_MANAGEMENT_PORT:?missing RABBITMQ_MANAGEMENT_PORT in .env}:15672"
+    volumes:
+      - ./rabbitmq.conf:/etc/rabbitmq/rabbitmq.conf:ro
+      - rabbitmq_data:/var/lib/rabbitmq
+    healthcheck:
+      test:
+        [
+          "CMD",
+          "rabbitmq-diagnostics",
+          "-q",
+          "check_port_connectivity",
+          "--address",
+          "127.0.0.1",
+        ]
+      interval: 10s
+      timeout: 5s
+      retries: 10
+
+  backend:
+    build:
+      context: ./backend
+      dockerfile: Dockerfile
+    restart: unless-stopped
+    environment:
+      APP_ENV: ${APP_ENV:?missing APP_ENV in .env}
+      BACKEND_PORT: ${BACKEND_PORT:?missing BACKEND_PORT in .env}
+      MYSQL_DSN: ${COMPOSE_MYSQL_DSN:?missing COMPOSE_MYSQL_DSN in .env.compose}
+      REDIS_ADDR: ${COMPOSE_REDIS_ADDR:?missing COMPOSE_REDIS_ADDR in .env.compose}
+      RABBITMQ_URL: ${COMPOSE_RABBITMQ_URL:?missing COMPOSE_RABBITMQ_URL in .env.compose}
+      JWT_SECRET: ${JWT_SECRET:?missing JWT_SECRET in .env}
+      ACCESS_TOKEN_TTL: ${ACCESS_TOKEN_TTL:?missing ACCESS_TOKEN_TTL in .env}
+      LOG_LEVEL: ${LOG_LEVEL:?missing LOG_LEVEL in .env}
+      SWAGGER_FILE: ${COMPOSE_SWAGGER_FILE:?missing COMPOSE_SWAGGER_FILE in .env.compose}
+    ports:
+      - "${BACKEND_PORT:?missing BACKEND_PORT in .env}:8080"
+    depends_on:
+      mysql:
+        condition: service_healthy
+      redis:
+        condition: service_healthy
+      rabbitmq:
+        condition: service_healthy
+
+  worker:
+    build:
+      context: ./backend
+      dockerfile: Dockerfile
+    command: ["/usr/local/bin/worker"]
+    restart: unless-stopped
+    environment:
+      APP_ENV: ${APP_ENV:?missing APP_ENV in .env}
+      MYSQL_DSN: ${COMPOSE_MYSQL_DSN:?missing COMPOSE_MYSQL_DSN in .env.compose}
+      RABBITMQ_URL: ${COMPOSE_RABBITMQ_URL:?missing COMPOSE_RABBITMQ_URL in .env.compose}
+      LOG_LEVEL: ${LOG_LEVEL:?missing LOG_LEVEL in .env}
+    depends_on:
+      mysql:
+        condition: service_healthy
+      rabbitmq:
+        condition: service_healthy
+
+  frontend:
+    build:
+      context: ./frontend
+      dockerfile: Dockerfile
+    environment:
+      VITE_API_BASE_URL: ${COMPOSE_VITE_API_BASE_URL:?missing COMPOSE_VITE_API_BASE_URL in .env.compose}
+      VITE_APP_NAME: ${COMPOSE_VITE_APP_NAME:?missing COMPOSE_VITE_APP_NAME in .env.compose}
+      VITE_APP_VERSION: ${COMPOSE_VITE_APP_VERSION:-}
+    ports:
+      - "${FRONTEND_PORT:?missing FRONTEND_PORT in .env}:5173"
+    depends_on:
+      - backend
+
+volumes:
+  mysql_data:
+  rabbitmq_data:

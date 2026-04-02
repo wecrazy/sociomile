@@ -26,6 +26,42 @@ go.work.sum
 
 # env file
 .env
+.env.*
+!.env.example
+!.env.compose.example
+!backend/.env.example
+!frontend/.env.example
+.envrc
+.direnv/
+
+# Node
+node_modules/
+frontend/node_modules/
+frontend/.vite/
+
+# Build output
+dist/
+frontend/dist/
+backend/bin/
+*.tsbuildinfo
+frontend/vite.config.js
+frontend/vite.config.d.ts
+frontend/vite.config.d.ts.map
+
+# Test output
+coverage/
+htmlcov/
+vitest-report*.json
+
+# Podman and containers
+.podman/
+
+# Logs
+*.log
+*.pid
+
+# System files
+.DS_Store
 
 # Editor/IDE
 # .idea/

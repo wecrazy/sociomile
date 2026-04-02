@@ -1,0 +1,62 @@
+.detail-grid {
+  display: grid;
+  grid-template-columns: minmax(0, 1.52fr) minmax(320px, 0.88fr);
+  gap: 22px;
+  align-items: start;
+}
+
+.detail-card {
+  display: grid;
+  gap: 20px;
+}
+
+.detail-card > p {
+  color: var(--muted);
+  line-height: 1.7;
+}
+
+.detail-link-row {
+  display: flex;
+  justify-content: flex-start;
+}
+
+.detail-sidebar {
+  align-content: start;
+}
+
+.message-list {
+  display: grid;
+  gap: 14px;
+}
+
+.message-card {
+  display: grid;
+  gap: 10px;
+  max-width: min(100%, 48rem);
+  padding: 18px 20px;
+  border-radius: 24px;
+  border: 1px solid var(--border);
+  background: var(--surface-overlay-strong), var(--surface-strong);
+}
+
+.message-card.customer {
+  margin-right: 48px;
+  border-top: 3px solid var(--secondary);
+}
+
+.message-card.agent {
+  margin-left: 48px;
+  border-top: 3px solid var(--primary);
+}
+
+.message-meta {
+  justify-content: space-between;
+  font-size: 0.82rem;
+}
+
+.loading-panel {
+  display: grid;
+  place-items: center;
+  min-height: 160px;
+  color: var(--muted);
+}

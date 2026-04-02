@@ -1,0 +1,834 @@
+openapi: 3.0.3
+info:
+  title: Sociomile API
+  version: 0.2.0
+  description: API surface for the Sociomile assessment implementation.
+tags:
+  - name: System
+  - name: Auth
+  - name: Channels
+  - name: Users
+  - name: Conversations
+  - name: Tickets
+servers:
+  - url: http://localhost:8080/api/v1
+paths:
+  /health:
+    get:
+      tags: [System]
+      summary: Check service health.
+      servers:
+        - url: http://localhost:8080
+      responses:
+        "200":
+          description: Service health payload.
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Health"
+  /:
+    get:
+      tags: [System]
+      summary: Return the API banner.
+      servers:
+        - url: http://localhost:8080
+      responses:
+        "200":
+          description: Plain-text banner.
+          content:
+            text/plain:
+              schema:
+                type: string
+                example: Sociomile API listening on 8080
+  /auth/login:
+    post:
+      tags: [Auth]
+      summary: Login with email and password.
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/LoginRequest"
+      responses:
+        "200":
+          description: Login response.
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/LoginEnvelope"
+        "400":
+          $ref: "#/components/responses/BadRequestError"
+        "401":
+          $ref: "#/components/responses/UnauthorizedError"
+        "403":
+          $ref: "#/components/responses/ForbiddenError"
+  /auth/me:
+    get:
+      tags: [Auth]
+      summary: Return the authenticated user profile.
+      security:
+        - bearerAuth: []
+      responses:
+        "200":
+          description: Authenticated user payload.
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/UserEnvelope"
+        "401":
+          $ref: "#/components/responses/UnauthorizedError"
+        "404":
+          $ref: "#/components/responses/NotFoundError"
+  /channel/webhook:
+    post:
+      tags: [Channels]
+      summary: Simulate an inbound channel message.
+      description: Creates a new active conversation or reuses an existing one for the same tenant, customer, and channel.
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/WebhookRequest"
+      responses:
+        "201":
+          description: Conversation created or reused.
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ConversationEnvelope"
+        "400":
+          $ref: "#/components/responses/BadRequestError"
+        "404":
+          $ref: "#/components/responses/NotFoundError"
+        "429":
+          $ref: "#/components/responses/TooManyRequestsError"
+  /users/agents:
+    get:
+      tags: [Users]
+      summary: List active agents in the current tenant.
+      security:
+        - bearerAuth: []
+      responses:
+        "200":
+          description: Active agent list.
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/UsersEnvelope"
+        "401":
+          $ref: "#/components/responses/UnauthorizedError"
+  /conversations:
+    get:
+      tags: [Conversations]
+      summary: List conversations with tenant-scoped filters.
+      security:
+        - bearerAuth: []
+      parameters:
+        - $ref: "#/components/parameters/Offset"
+        - $ref: "#/components/parameters/Limit"
+        - $ref: "#/components/parameters/ConversationStatus"
+        - $ref: "#/components/parameters/AssignedAgentID"
+      responses:
+        "200":
+          description: Paginated conversation list.
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ConversationListEnvelope"
+        "401":
+          $ref: "#/components/responses/UnauthorizedError"
+  /conversations/{id}:
+    get:
+      tags: [Conversations]
+      summary: Get conversation detail.
+      security:
+        - bearerAuth: []
+      parameters:
+        - $ref: "#/components/parameters/ConversationID"
+      responses:
+        "200":
+          description: Conversation detail.
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ConversationEnvelope"
+        "401":
+          $ref: "#/components/responses/UnauthorizedError"
+        "404":
+          $ref: "#/components/responses/NotFoundError"
+  /conversations/{id}/assign:
+    patch:
+      tags: [Conversations]
+      summary: Assign a conversation to an agent.
+      security:
+        - bearerAuth: []
+      parameters:
+        - $ref: "#/components/parameters/ConversationID"
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/AssignConversationRequest"
+      responses:
+        "200":
+          description: Assigned conversation.
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ConversationEnvelope"
+        "400":
+          $ref: "#/components/responses/BadRequestError"
+        "401":
+          $ref: "#/components/responses/UnauthorizedError"
+        "403":
+          $ref: "#/components/responses/ForbiddenError"
+        "404":
+          $ref: "#/components/responses/NotFoundError"
+        "409":
+          $ref: "#/components/responses/ConflictError"
+  /conversations/{id}/messages:
+    post:
+      tags: [Conversations]
+      summary: Reply to a conversation as an agent.
+      security:
+        - bearerAuth: []
+      parameters:
+        - $ref: "#/components/parameters/ConversationID"
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/ReplyConversationRequest"
+      responses:
+        "200":
+          description: Updated conversation thread.
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ConversationEnvelope"
+        "400":
+          $ref: "#/components/responses/BadRequestError"
+        "401":
+          $ref: "#/components/responses/UnauthorizedError"
+        "403":
+          $ref: "#/components/responses/ForbiddenError"
+        "404":
+          $ref: "#/components/responses/NotFoundError"
+        "409":
+          $ref: "#/components/responses/ConflictError"
+  /conversations/{id}/close:
+    patch:
+      tags: [Conversations]
+      summary: Close a conversation.
+      security:
+        - bearerAuth: []
+      parameters:
+        - $ref: "#/components/parameters/ConversationID"
+      responses:
+        "200":
+          description: Closed conversation.
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ConversationEnvelope"
+        "401":
+          $ref: "#/components/responses/UnauthorizedError"
+        "403":
+          $ref: "#/components/responses/ForbiddenError"
+        "404":
+          $ref: "#/components/responses/NotFoundError"
+  /conversations/{id}/escalate:
+    post:
+      tags: [Conversations, Tickets]
+      summary: Escalate a conversation into a ticket.
+      security:
+        - bearerAuth: []
+      parameters:
+        - $ref: "#/components/parameters/ConversationID"
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/EscalateTicketRequest"
+      responses:
+        "201":
+          description: Ticket created.
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/TicketEnvelope"
+        "400":
+          $ref: "#/components/responses/BadRequestError"
+        "401":
+          $ref: "#/components/responses/UnauthorizedError"
+        "403":
+          $ref: "#/components/responses/ForbiddenError"
+        "404":
+          $ref: "#/components/responses/NotFoundError"
+        "409":
+          $ref: "#/components/responses/ConflictError"
+  /tickets:
+    get:
+      tags: [Tickets]
+      summary: List tickets with tenant-scoped filters.
+      security:
+        - bearerAuth: []
+      parameters:
+        - $ref: "#/components/parameters/Offset"
+        - $ref: "#/components/parameters/Limit"
+        - $ref: "#/components/parameters/TicketStatus"
+        - $ref: "#/components/parameters/TicketPriority"
+        - $ref: "#/components/parameters/AssignedAgentID"
+      responses:
+        "200":
+          description: Paginated ticket list.
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/TicketListEnvelope"
+        "401":
+          $ref: "#/components/responses/UnauthorizedError"
+  /tickets/{id}:
+    get:
+      tags: [Tickets]
+      summary: Get ticket detail.
+      security:
+        - bearerAuth: []
+      parameters:
+        - $ref: "#/components/parameters/TicketID"
+      responses:
+        "200":
+          description: Ticket detail.
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/TicketEnvelope"
+        "401":
+          $ref: "#/components/responses/UnauthorizedError"
+        "404":
+          $ref: "#/components/responses/NotFoundError"
+  /tickets/{id}/status:
+    patch:
+      tags: [Tickets]
+      summary: Update ticket status as an admin.
+      security:
+        - bearerAuth: []
+      parameters:
+        - $ref: "#/components/parameters/TicketID"
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/UpdateTicketStatusRequest"
+      responses:
+        "200":
+          description: Updated ticket.
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/TicketEnvelope"
+        "400":
+          $ref: "#/components/responses/BadRequestError"
+        "401":
+          $ref: "#/components/responses/UnauthorizedError"
+        "403":
+          $ref: "#/components/responses/ForbiddenError"
+        "404":
+          $ref: "#/components/responses/NotFoundError"
+components:
+  securitySchemes:
+    bearerAuth:
+      type: http
+      scheme: bearer
+      bearerFormat: JWT
+  parameters:
+    ConversationID:
+      in: path
+      name: id
+      required: true
+      description: Conversation identifier.
+      schema:
+        type: string
+        format: uuid
+    TicketID:
+      in: path
+      name: id
+      required: true
+      description: Ticket identifier.
+      schema:
+        type: string
+        format: uuid
+    Offset:
+      in: query
+      name: offset
+      description: Zero-based offset.
+      schema:
+        type: integer
+        minimum: 0
+        default: 0
+    Limit:
+      in: query
+      name: limit
+      description: Page size.
+      schema:
+        type: integer
+        minimum: 1
+        maximum: 100
+        default: 20
+    ConversationStatus:
+      in: query
+      name: status
+      schema:
+        type: string
+        enum: [open, assigned, closed]
+    AssignedAgentID:
+      in: query
+      name: assigned_agent_id
+      schema:
+        type: string
+        format: uuid
+    TicketStatus:
+      in: query
+      name: status
+      schema:
+        type: string
+        enum: [open, in_progress, resolved, closed]
+    TicketPriority:
+      in: query
+      name: priority
+      schema:
+        type: string
+        enum: [low, medium, high]
+  responses:
+    BadRequestError:
+      description: Invalid request payload or parameters.
+      content:
+        application/json:
+          schema:
+            $ref: "#/components/schemas/ErrorEnvelope"
+    UnauthorizedError:
+      description: Missing or invalid bearer token.
+      content:
+        application/json:
+          schema:
+            $ref: "#/components/schemas/ErrorEnvelope"
+    ForbiddenError:
+      description: Authenticated user lacks permission.
+      content:
+        application/json:
+          schema:
+            $ref: "#/components/schemas/ErrorEnvelope"
+    NotFoundError:
+      description: Resource not found.
+      content:
+        application/json:
+          schema:
+            $ref: "#/components/schemas/ErrorEnvelope"
+    ConflictError:
+      description: Request conflicts with current resource state.
+      content:
+        application/json:
+          schema:
+            $ref: "#/components/schemas/ErrorEnvelope"
+    TooManyRequestsError:
+      description: Request was rate limited.
+      content:
+        application/json:
+          schema:
+            $ref: "#/components/schemas/ErrorEnvelope"
+  schemas:
+    Health:
+      type: object
+      properties:
+        status:
+          type: string
+          example: ok
+        port:
+          type: integer
+          example: 8080
+        services:
+          type: object
+          properties:
+            api:
+              $ref: "#/components/schemas/HealthService"
+            worker:
+              $ref: "#/components/schemas/HealthService"
+          required: [api, worker]
+      required: [status, port, services]
+    HealthService:
+      type: object
+      properties:
+        status:
+          type: string
+          enum: [online, offline, unknown]
+          example: online
+        checked_at:
+          type: string
+          format: date-time
+          nullable: true
+      required: [status]
+    Error:
+      type: object
+      properties:
+        code:
+          type: string
+          example: invalid_request
+        message:
+          type: string
+          example: request body must be valid JSON
+      required: [code, message]
+    ErrorEnvelope:
+      type: object
+      properties:
+        error:
+          $ref: "#/components/schemas/Error"
+      required: [error]
+    PaginationMeta:
+      type: object
+      properties:
+        total:
+          type: integer
+          example: 42
+        offset:
+          type: integer
+          example: 0
+        limit:
+          type: integer
+          example: 20
+        filters:
+          type: object
+          additionalProperties: true
+      required: [total, offset, limit, filters]
+    Tenant:
+      type: object
+      properties:
+        id:
+          type: string
+          format: uuid
+        name:
+          type: string
+        slug:
+          type: string
+        created_at:
+          type: string
+          format: date-time
+        updated_at:
+          type: string
+          format: date-time
+      required: [id, name, slug, created_at, updated_at]
+    User:
+      type: object
+      properties:
+        id:
+          type: string
+          format: uuid
+        tenant_id:
+          type: string
+          format: uuid
+        name:
+          type: string
+        email:
+          type: string
+          format: email
+        role:
+          type: string
+          enum: [admin, agent]
+        active:
+          type: boolean
+        tenant:
+          $ref: "#/components/schemas/Tenant"
+        created_at:
+          type: string
+          format: date-time
+        updated_at:
+          type: string
+          format: date-time
+      required:
+        [id, tenant_id, name, email, role, active, created_at, updated_at]
+    Channel:
+      type: object
+      properties:
+        id:
+          type: string
+          format: uuid
+        tenant_id:
+          type: string
+          format: uuid
+        key:
+          type: string
+        name:
+          type: string
+        created_at:
+          type: string
+          format: date-time
+        updated_at:
+          type: string
+          format: date-time
+      required: [id, tenant_id, key, name, created_at, updated_at]
+    Customer:
+      type: object
+      properties:
+        id:
+          type: string
+          format: uuid
+        tenant_id:
+          type: string
+          format: uuid
+        external_id:
+          type: string
+        name:
+          type: string
+        created_at:
+          type: string
+          format: date-time
+        updated_at:
+          type: string
+          format: date-time
+      required: [id, tenant_id, external_id, name, created_at, updated_at]
+    Message:
+      type: object
+      properties:
+        id:
+          type: string
+          format: uuid
+        conversation_id:
+          type: string
+          format: uuid
+        sender_type:
+          type: string
+          enum: [customer, agent]
+        sender_id:
+          type: string
+          format: uuid
+          nullable: true
+        message:
+          type: string
+        created_at:
+          type: string
+          format: date-time
+        updated_at:
+          type: string
+          format: date-time
+      required:
+        [id, conversation_id, sender_type, message, created_at, updated_at]
+    Ticket:
+      type: object
+      properties:
+        id:
+          type: string
+          format: uuid
+        tenant_id:
+          type: string
+          format: uuid
+        conversation_id:
+          type: string
+          format: uuid
+        title:
+          type: string
+        description:
+          type: string
+        status:
+          type: string
+          enum: [open, in_progress, resolved, closed]
+        priority:
+          type: string
+          enum: [low, medium, high]
+        assigned_agent_id:
+          type: string
+          format: uuid
+          nullable: true
+        assigned_agent:
+          $ref: "#/components/schemas/User"
+        created_at:
+          type: string
+          format: date-time
+        updated_at:
+          type: string
+          format: date-time
+      required:
+        [
+          id,
+          tenant_id,
+          conversation_id,
+          title,
+          description,
+          status,
+          priority,
+          created_at,
+          updated_at,
+        ]
+    Conversation:
+      type: object
+      properties:
+        id:
+          type: string
+          format: uuid
+        tenant_id:
+          type: string
+          format: uuid
+        customer_id:
+          type: string
+          format: uuid
+        channel_id:
+          type: string
+          format: uuid
+        status:
+          type: string
+          enum: [open, assigned, closed]
+        assigned_agent_id:
+          type: string
+          format: uuid
+          nullable: true
+        customer:
+          $ref: "#/components/schemas/Customer"
+        channel:
+          $ref: "#/components/schemas/Channel"
+        assigned_agent:
+          $ref: "#/components/schemas/User"
+        messages:
+          type: array
+          items:
+            $ref: "#/components/schemas/Message"
+        ticket:
+          $ref: "#/components/schemas/Ticket"
+        created_at:
+          type: string
+          format: date-time
+        updated_at:
+          type: string
+          format: date-time
+      required:
+        [id, tenant_id, customer_id, channel_id, status, created_at, updated_at]
+    LoginRequest:
+      type: object
+      properties:
+        email:
+          type: string
+          format: email
+          example: alice.admin@acme.local
+        password:
+          type: string
+          format: password
+          example: Password123!
+      required: [email, password]
+    LoginPayload:
+      type: object
+      properties:
+        access_token:
+          type: string
+        user:
+          $ref: "#/components/schemas/User"
+      required: [access_token, user]
+    LoginEnvelope:
+      type: object
+      properties:
+        data:
+          $ref: "#/components/schemas/LoginPayload"
+      required: [data]
+    UserEnvelope:
+      type: object
+      properties:
+        data:
+          $ref: "#/components/schemas/User"
+      required: [data]
+    UsersEnvelope:
+      type: object
+      properties:
+        data:
+          type: array
+          items:
+            $ref: "#/components/schemas/User"
+      required: [data]
+    ConversationEnvelope:
+      type: object
+      properties:
+        data:
+          $ref: "#/components/schemas/Conversation"
+      required: [data]
+    ConversationListEnvelope:
+      type: object
+      properties:
+        data:
+          type: array
+          items:
+            $ref: "#/components/schemas/Conversation"
+        meta:
+          $ref: "#/components/schemas/PaginationMeta"
+      required: [data, meta]
+    TicketEnvelope:
+      type: object
+      properties:
+        data:
+          $ref: "#/components/schemas/Ticket"
+      required: [data]
+    TicketListEnvelope:
+      type: object
+      properties:
+        data:
+          type: array
+          items:
+            $ref: "#/components/schemas/Ticket"
+        meta:
+          $ref: "#/components/schemas/PaginationMeta"
+      required: [data, meta]
+    WebhookRequest:
+      type: object
+      properties:
+        tenant_id:
+          type: string
+          format: uuid
+          example: 11111111-1111-1111-1111-111111111111
+        channel_key:
+          type: string
+          example: whatsapp
+        customer_external_id:
+          type: string
+          example: cust-wa-001
+        customer_name:
+          type: string
+          example: Lena Hart
+        message:
+          type: string
+          example: Hello, I need help with my order.
+      required: [tenant_id, channel_key, customer_external_id, message]
+    AssignConversationRequest:
+      type: object
+      properties:
+        agent_id:
+          type: string
+          format: uuid
+      required: [agent_id]
+    ReplyConversationRequest:
+      type: object
+      properties:
+        message:
+          type: string
+          example: We can help with that.
+      required: [message]
+    EscalateTicketRequest:
+      type: object
+      properties:
+        title:
+          type: string
+          example: Investigate billing discrepancy
+        description:
+          type: string
+          example: Customer needs deeper internal follow-up.
+        priority:
+          type: string
+          enum: [low, medium, high]
+          default: medium
+      required: [title, description]
+    UpdateTicketStatusRequest:
+      type: object
+      properties:
+        status:
+          type: string
+          enum: [open, in_progress, resolved, closed]
+      required: [status]
