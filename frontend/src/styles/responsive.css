@@ -1,0 +1,119 @@
+@media (max-width: 1280px) {
+  .stats-grid-dashboard {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+}
+
+@media (max-width: 1180px) {
+  .shell,
+  .login-shell,
+  .hero-card-dashboard,
+  .detail-grid,
+  .settings-hero {
+    grid-template-columns: 1fr;
+  }
+
+  .sidebar {
+    position: relative;
+    top: auto;
+    height: auto;
+  }
+
+  .settings-grid > * {
+    grid-column: span 12;
+  }
+}
+
+@media (max-width: 920px) {
+  .shell {
+    padding: 16px;
+  }
+
+  .section-header,
+  .topbar,
+  .topbar-actions {
+    grid-template-columns: 1fr;
+    display: grid;
+  }
+
+  .topbar,
+  .topbar-actions {
+    align-items: stretch;
+  }
+
+  .nav-links {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+}
+
+@media (max-width: 680px) {
+  .shell,
+  .login-screen {
+    padding: 14px;
+  }
+
+  .nav-links,
+  .stats-grid,
+  .hero-strip,
+  .workspace-service-list,
+  .filters-row,
+  .profile-grid,
+  .detail-meta-grid,
+  .workspace-grid,
+  .hero-aside-stats,
+  .settings-hero-metrics {
+    grid-template-columns: 1fr;
+  }
+
+  .hero-card,
+  .detail-card,
+  .login-showcase,
+  .login-panel,
+  .panel,
+  .table-card,
+  .stat-card,
+  .brand-card,
+  .workspace-card,
+  .control-card {
+    padding: 22px;
+  }
+
+  .topbar-card,
+  .workspace-row,
+  .detail-heading,
+  .table-toolbar,
+  .panel-heading,
+  .login-panel-header,
+  .topbar-actions {
+    align-items: flex-start;
+    flex-direction: column;
+  }
+
+  .topbar-card {
+    min-width: 0;
+    width: 100%;
+  }
+
+  .message-card.customer,
+  .message-card.agent {
+    margin: 0;
+  }
+
+  .login-demo-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .login-demo-card {
+    min-width: 100%;
+  }
+
+  .data-table {
+    min-width: 620px;
+  }
+
+  [data-sonner-toaster] {
+    left: 14px !important;
+    right: 14px !important;
+    width: auto !important;
+  }
+}

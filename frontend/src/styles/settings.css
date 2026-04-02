@@ -1,0 +1,63 @@
+.panel {
+  display: grid;
+  gap: 16px;
+  padding: 22px;
+}
+
+.settings-grid {
+  display: grid;
+  grid-template-columns: repeat(12, minmax(0, 1fr));
+  gap: 22px;
+}
+
+.settings-hero,
+.settings-grid > :first-child {
+  grid-column: span 12;
+}
+
+.settings-hero {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) minmax(260px, 0.85fr);
+  gap: 18px;
+  align-items: end;
+}
+
+.settings-hero-content {
+  max-width: 40rem;
+}
+
+.settings-metric {
+  display: grid;
+  gap: 8px;
+  padding: 16px;
+  border-radius: 20px;
+  border: 1px solid var(--border);
+}
+
+.profile-panel {
+  grid-column: span 7;
+  display: grid;
+  gap: 18px;
+}
+
+.preference-panel {
+  grid-column: span 5;
+}
+
+.panel-chip {
+  color: var(--muted);
+}
+
+.profile-item,
+.meta-tile {
+  display: grid;
+  gap: 10px;
+  padding: 16px;
+  border: 1px solid var(--border);
+  border-radius: 22px;
+}
+
+.profile-item {
+  grid-template-columns: auto 1fr;
+  align-items: start;
+}

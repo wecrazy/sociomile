@@ -1,0 +1,109 @@
+nav:
+  dashboard: Dasbor
+  conversations: Percakapan
+  tickets: Tiket
+  settings: Pengaturan
+shell:
+  eyebrow: Meja operasi
+  headline: Orkestrasi dukungan
+  workspaceLive: Workspace aktif
+  workspaceChecking: Memeriksa workspace
+  workspaceOffline: Workspace offline
+  backendService: API backend
+  workerService: Worker
+  statusOnline: Online
+  statusOffline: Offline
+  statusChecking: Memeriksa
+  statusUnknown: Tidak diketahui
+  tenant: Tenant
+  operator: Operator
+  demoCredentials: Kredensial demo
+auth:
+  title: Masuk ke workspace tenant
+  subtitle: Gunakan akun demo hasil seed atau akun Anda sendiri.
+  demoHint: Pilih role hasil seed untuk langsung mengisi formulir.
+  demoPasswordHint: "Semua user demo memakai kata sandi ini:"
+  email: Email
+  password: Kata sandi
+  roleAdmin: Admin
+  roleAgent: Agent
+  submit: Masuk
+  logout: Keluar
+  useDemoAccount: Pakai login {{role}}
+  invalidCredentials: Kredensial tidak valid.
+dashboard:
+  title: Ringkasan operasional
+  subtitle: Pantau antrean saat ini dan gerakkan customer di sepanjang lifecycle support.
+  openConversations: Percakapan
+  openTickets: Tiket
+  totalWorkload: Beban kerja terbuka
+  queueMix: Komposisi antrean
+conversation:
+  title: Antrean percakapan
+  customer: Customer
+  channel: Channel
+  status: Status
+  assignedAgent: Agent
+  assign: Assign percakapan
+  assignToAgent: Pilih agent
+  saveAssignment: Simpan assignment
+  reply: Balas
+  sendReply: Kirim Balasan
+  viewTicket: Lihat tiket terkait
+ticket:
+  title: Judul tiket
+  titlePlural: Antrean tiket
+  description: Deskripsi
+  status: Status
+  priority: Prioritas
+  assignedAgent: Agent
+  escalate: Eskalasi menjadi tiket
+  create: Buat Tiket
+  updateStatus: Ubah status tiket
+  saveStatus: Simpan Status
+settings:
+  title: Pengaturan workspace
+  subtitle: Atur preferensi tema dan bahasa untuk UI operator.
+  profile: Profil
+  preferences: Preferensi
+  language: Bahasa
+  darkMode: Ganti ke mode gelap
+  lightMode: Ganti ke mode terang
+filters:
+  allStatuses: Semua status
+  allPriorities: Semua prioritas
+  allAgents: Semua agent
+  assignedAgentId: ID agent
+table:
+  previous: Sebelumnya
+  next: Berikutnya
+  showing: Menampilkan {{from}} sampai {{to}} dari {{total}}
+toast:
+  signingIn: Sedang masuk...
+  loginSuccess: Berhasil masuk ke Sociomile.
+  loginFailed: Kami tidak dapat memproses login. Periksa kredensial lalu coba lagi.
+  logoutSuccess: Berhasil keluar dari workspace.
+  languageChanged: Bahasa diubah ke {{language}}.
+  themeDark: Mode gelap aktif.
+  themeLight: Mode terang aktif.
+  assignmentSaving: Menyimpan assignment...
+  assignmentSaved: Assignment percakapan berhasil disimpan.
+  assignmentFailed: Kami tidak dapat menyimpan assignment.
+  replySending: Mengirim balasan...
+  replySent: Balasan berhasil dikirim.
+  replyFailed: Kami tidak dapat mengirim balasan.
+  ticketCreating: Membuat tiket...
+  ticketCreated: Tiket berhasil dibuat dari percakapan.
+  ticketCreateFailed: Kami tidak dapat membuat tiket.
+  ticketStatusSaving: Menyimpan status tiket...
+  ticketStatusSaved: Status tiket berhasil diperbarui.
+  ticketStatusFailed: Kami tidak dapat memperbarui status tiket.
+  conversationLoadFailed: Kami tidak dapat memuat percakapan itu.
+  ticketLoadFailed: Kami tidak dapat memuat tiket itu.
+  viewTicketAction: Lihat tiket
+  updateAvailable: Versi baru sudah tersedia.
+  refreshAction: Muat ulang sekarang
+  workspaceRestored: Koneksi workspace pulih.
+common:
+  loading: Memuat...
+  empty: Tidak ada data.
