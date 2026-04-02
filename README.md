@@ -1,12 +1,24 @@
-# Sociomile
-
-| |
-| :--: |
-| ![Sociomile](docs/readme-mark.svg) |
-| **Take-home fullstack untuk workflow omnichannel support multi-tenant.** |
-| [![License: Apache 2.0](https://img.shields.io/badge/license-Apache%202.0-0f766e.svg)](LICENSE) ![Go 1.26+](https://img.shields.io/badge/Go-1.26+-00ADD8?logo=go&logoColor=white) ![Go Fiber v3](https://img.shields.io/badge/Fiber-v3-00B2A9?logo=go&logoColor=white) ![React 19](https://img.shields.io/badge/React-19-20232A?logo=react&logoColor=61DAFB) ![Vite 6](https://img.shields.io/badge/Vite-6-646CFF?logo=vite&logoColor=white) |
-| ![MySQL 8.4](https://img.shields.io/badge/MySQL-8.4-4479A1?logo=mysql&logoColor=white) ![Redis 7.4](https://img.shields.io/badge/Redis-7.4-DC382D?logo=redis&logoColor=white) ![RabbitMQ 3.13](https://img.shields.io/badge/RabbitMQ-3.13-FF6600?logo=rabbitmq&logoColor=white) ![Podman Compose](https://img.shields.io/badge/Podman-Compose-892CA0?logo=podman&logoColor=white) |
-| Bahasa Indonesia \| [English](README.en.md) |
+<!-- markdownlint-disable MD033 MD041 -->
+<div align="center">
+    <img src="docs/readme-mark.svg" alt="Sociomile" width="84" />
+    <h1>Sociomile</h1>
+    <p><strong>Take-home fullstack untuk workflow omnichannel support multi-tenant.</strong></p>
+    <p>
+        <a href="LICENSE"><img src="https://img.shields.io/badge/license-Apache%202.0-0f766e.svg" alt="License: Apache 2.0" /></a>
+        <img src="https://img.shields.io/badge/Go-1.26+-00ADD8?logo=go&logoColor=white" alt="Go 1.26+" />
+        <img src="https://img.shields.io/badge/Fiber-v3-00B2A9?logo=go&logoColor=white" alt="Go Fiber v3" />
+        <img src="https://img.shields.io/badge/React-19-20232A?logo=react&logoColor=61DAFB" alt="React 19" />
+        <img src="https://img.shields.io/badge/Vite-6-646CFF?logo=vite&logoColor=white" alt="Vite 6" />
+    </p>
+    <p>
+        <img src="https://img.shields.io/badge/MySQL-8.4-4479A1?logo=mysql&logoColor=white" alt="MySQL 8.4" />
+        <img src="https://img.shields.io/badge/Redis-7.4-DC382D?logo=redis&logoColor=white" alt="Redis 7.4" />
+        <img src="https://img.shields.io/badge/RabbitMQ-3.13-FF6600?logo=rabbitmq&logoColor=white" alt="RabbitMQ 3.13" />
+        <img src="https://img.shields.io/badge/Podman-Compose-892CA0?logo=podman&logoColor=white" alt="Podman Compose" />
+    </p>
+    <p>Bahasa Indonesia | <a href="README.en.md">English</a></p>
+</div>
+<!-- markdownlint-enable MD033 MD041 -->
 
 Sociomile adalah implementasi take-home fullstack untuk alur omnichannel support berbasis multi-tenant:
 
