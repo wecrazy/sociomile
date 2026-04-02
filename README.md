@@ -1,21 +1,12 @@
 # Sociomile
 
-![Sociomile](frontend/public/favicon.svg)
-
-**Take-home fullstack untuk workflow omnichannel support multi-tenant.**
-
-[![License: Apache 2.0](https://img.shields.io/badge/license-Apache%202.0-0f766e.svg)](LICENSE)
-![Go 1.26+](https://img.shields.io/badge/Go-1.26+-00ADD8?logo=go&logoColor=white)
-![Go Fiber v3](https://img.shields.io/badge/Fiber-v3-00B2A9?logo=go&logoColor=white)
-![React 19](https://img.shields.io/badge/React-19-20232A?logo=react&logoColor=61DAFB)
-![Vite 6](https://img.shields.io/badge/Vite-6-646CFF?logo=vite&logoColor=white)
-
-![MySQL 8.4](https://img.shields.io/badge/MySQL-8.4-4479A1?logo=mysql&logoColor=white)
-![Redis 7.4](https://img.shields.io/badge/Redis-7.4-DC382D?logo=redis&logoColor=white)
-![RabbitMQ 3.13](https://img.shields.io/badge/RabbitMQ-3.13-FF6600?logo=rabbitmq&logoColor=white)
-![Podman Compose](https://img.shields.io/badge/Podman-Compose-892CA0?logo=podman&logoColor=white)
-
-Bahasa Indonesia | [English](README.en.md)
+| |
+| :--: |
+| ![Sociomile](docs/readme-mark.svg) |
+| **Take-home fullstack untuk workflow omnichannel support multi-tenant.** |
+| [![License: Apache 2.0](https://img.shields.io/badge/license-Apache%202.0-0f766e.svg)](LICENSE) ![Go 1.26+](https://img.shields.io/badge/Go-1.26+-00ADD8?logo=go&logoColor=white) ![Go Fiber v3](https://img.shields.io/badge/Fiber-v3-00B2A9?logo=go&logoColor=white) ![React 19](https://img.shields.io/badge/React-19-20232A?logo=react&logoColor=61DAFB) ![Vite 6](https://img.shields.io/badge/Vite-6-646CFF?logo=vite&logoColor=white) |
+| ![MySQL 8.4](https://img.shields.io/badge/MySQL-8.4-4479A1?logo=mysql&logoColor=white) ![Redis 7.4](https://img.shields.io/badge/Redis-7.4-DC382D?logo=redis&logoColor=white) ![RabbitMQ 3.13](https://img.shields.io/badge/RabbitMQ-3.13-FF6600?logo=rabbitmq&logoColor=white) ![Podman Compose](https://img.shields.io/badge/Podman-Compose-892CA0?logo=podman&logoColor=white) |
+| Bahasa Indonesia \| [English](README.en.md) |
 
 Sociomile adalah implementasi take-home fullstack untuk alur omnichannel support berbasis multi-tenant:
 
