@@ -2,7 +2,7 @@
 
 Bahasa Indonesia | [English](REFERENCE.en.md) | [README](../README.md)
 
-Dokumen ini merangkum layout repository, command utama, environment variables, dan ringkasan API.
+Dokumen ini merangkum struktur repository, perintah utama, variabel environment, dan ringkasan API.
 
 ## Struktur Repository
 
@@ -15,7 +15,7 @@ Dokumen ini merangkum layout repository, command utama, environment variables, d
 
 ## Ringkasan Cepat untuk Reviewer
 
-### Alur Review Cepat
+### Alur Tinjauan Cepat
 
 1. `git clone https://github.com/wecrazy/sociomile.git`
 1. `cd sociomile`
@@ -121,9 +121,9 @@ File `backend/.env` dan `frontend/.env` tetap dipakai untuk menjalankan service 
 | `COMPOSE_VITE_APP_NAME` | `Sociomile` | Nama aplikasi frontend di compose |
 | `COMPOSE_SWAGGER_FILE` | `./docs/openapi.yaml` | Lokasi file OpenAPI yang dipakai container backend |
 
-Jika salah satu variabel yang dipakai compose hilang, `make dev`, `make build`, dan `podman-compose config` akan gagal lebih awal dengan pesan error yang menyebut nama variabel yang belum diisi.
+Jika ada variabel yang dibutuhkan compose belum diisi, `make dev`, `make build`, dan `podman-compose config` akan langsung gagal dengan pesan error yang menyebutkan nama variabel yang kurang.
 
-Catatan untuk MySQL lokal: container MySQL hanya membuat database dan user dari env saat volume data masih kosong. Jika `MYSQL_DATABASE`, `MYSQL_USER`, atau password diubah setelah volume `sociomile_mysql_data` sudah terbuat, hapus volume tersebut lalu start ulang stack agar provisioning dijalankan ulang.
+Catatan untuk MySQL lokal: container MySQL hanya membuat database dan user dari env ketika volume data masih kosong. Jika `MYSQL_DATABASE`, `MYSQL_USER`, atau password diubah setelah volume `sociomile_mysql_data` sudah ada, hapus volume tersebut, lalu jalankan ulang stack agar proses provisioning berjalan kembali.
 
 ### Menjalankan Compose Secara Langsung
 

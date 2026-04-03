@@ -54,7 +54,7 @@ flowchart TB
 
 ## Runtime Topology
 
-- The API handles authentication, conversation lifecycle, ticket lifecycle, and Swagger
+- The API handles authentication, conversation lifecycle, ticket lifecycle, and Swagger serving
 - The worker reads pending outbox events and publishes them to RabbitMQ
 - MySQL is the source of truth for tenants, users, channels, conversations, messages, tickets, logs, and outbox
 - Redis is used for webhook rate limiting and conversation or ticket list caching

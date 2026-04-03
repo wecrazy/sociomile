@@ -2,7 +2,7 @@
 
 Bahasa Indonesia | [English](TESTING.en.md) | [README](../README.md)
 
-Dokumen ini merangkum workflow test otomatis, coverage, dan validasi manual end-to-end.
+Dokumen ini merangkum alur pengujian otomatis, laporan coverage, dan validasi manual end-to-end.
 
 ## Pengujian Otomatis
 
@@ -16,7 +16,7 @@ make coverage
 cd frontend && npm run build
 ```
 
-Saat dokumen ini dicek ulang, perintah berikut berhasil dijalankan:
+Saat dokumen ini ditinjau ulang, perintah berikut berhasil dijalankan:
 
 - `make backend-test`
 - `make frontend-test`
@@ -37,7 +37,7 @@ Saat dokumen ini dicek ulang, perintah berikut berhasil dijalankan:
 - Login sukses dan gagal
 - Lifecycle conversation, lifecycle ticket, dan isolasi tenant di service layer
 - Integrasi Fiber router untuk health, login, auth/me, users/agents, webhook intake, assignment, reply, close, escalation, list atau detail ticket, dan update status
-- Config loading, runner migration, cabang CLI `migrate` atau `seed`, seam startup API atau worker, helper logger dan Redis, helper outbox repository, retry worker untuk cancelation atau eventual success, dan load seed data
+- Pemuatan konfigurasi, runner migrasi, cabang CLI `migrate` atau `seed`, titik integrasi startup API atau worker, helper logger dan Redis, helper outbox repository, retry worker untuk cancelation atau eventual success, dan muat data seed
 - Helper cache Redis untuk hit atau miss JSON, invalidasi version, rate limit, serta seam setup, `Publish`, atau `Close` publisher dan `OpenDatabase`
 
 ### Frontend
@@ -115,5 +115,5 @@ curl -X POST http://localhost:8080/api/v1/channel/webhook \
 ## Gap Pengujian yang Masih Ada
 
 - Target full coverage dari brief belum tercapai
-- Area backend yang masih paling rendah sekarang terutama ada di cabang error seed loading, sebagian helper repository tenant-aware, dan beberapa path validasi service seperti transaksi webhook serta eskalasi atau update ticket
-- Area frontend yang masih paling rendah sekarang terutama ada di edge branch halaman conversation atau ticket detail, sebagian callback atau branch pada list, dan sedikit cabang UI dashboard atau layout
+- Area backend dengan coverage paling rendah saat ini terutama berada di cabang error saat memuat seed, sebagian helper repository tenant-aware, dan beberapa jalur validasi service seperti kegagalan transaksi webhook serta eskalasi atau pembaruan tiket
+- Area frontend dengan coverage paling rendah saat ini terutama berada di cabang edge halaman detail percakapan atau tiket, sebagian callback atau cabang pada halaman list, dan sejumlah kecil cabang UI dashboard atau layout

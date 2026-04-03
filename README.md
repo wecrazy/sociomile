@@ -2,7 +2,7 @@
 <div align="center">
     <img src="docs/readme-mark.svg" alt="Sociomile" width="84" />
     <h1>Sociomile</h1>
-    <p><strong>Take-home fullstack untuk workflow omnichannel support multi-tenant.</strong></p>
+    <p><strong>Proyek fullstack take-home untuk alur dukungan omnichannel multi-tenant.</strong></p>
     <p>
         <a href="LICENSE"><img src="https://img.shields.io/badge/license-Apache%202.0-0f766e.svg" alt="License: Apache 2.0" /></a>
         <img src="https://img.shields.io/badge/Go-1.26+-00ADD8?logo=go&logoColor=white" alt="Go 1.26+" />
@@ -20,11 +20,17 @@
 </div>
 <!-- markdownlint-enable MD033 MD041 -->
 
-Sociomile adalah implementasi take-home fullstack untuk alur omnichannel support berbasis multi-tenant:
+Sociomile adalah implementasi fullstack take-home untuk alur dukungan omnichannel berbasis multi-tenant:
 
-`Channel webhook -> Conversation -> Assignment -> Agent reply -> Ticket escalation`
+<!-- markdownlint-disable MD033 -->
+<div align="center">
 
-Repository ini berisi backend Go Fiber v3, worker async terpisah, operator UI berbasis React + Vite, MySQL, Redis, dan RabbitMQ, semuanya dibungkus dalam workflow lokal yang kompatibel dengan Podman.
+**`Channel webhook`** &nbsp;→&nbsp; **`Conversation`** &nbsp;→&nbsp; **`Assignment`** &nbsp;→&nbsp; **`Agent reply`** &nbsp;→&nbsp; **`Ticket escalation`**
+
+</div>
+<!-- markdownlint-enable MD033 -->
+
+Repository ini berisi backend Go Fiber v3, worker async terpisah, operator UI berbasis React + Vite, MySQL, Redis, dan RabbitMQ, semuanya dibungkus dalam lingkungan lokal yang kompatibel dengan Podman.
 
 ## Stack dan Lisensi
 
@@ -36,8 +42,8 @@ Repository ini berisi backend Go Fiber v3, worker async terpisah, operator UI be
 ## Cakupan Implementasi
 
 - Login JWT dengan kontrol akses berbasis role `admin` dan `agent`
-- Webhook channel publik yang membuat atau memakai ulang conversation berdasarkan tenant dan channel
-- Antrean conversation dengan pagination offset dan filtering di sisi server
+- Webhook channel publik yang membuat atau menggunakan kembali percakapan berdasarkan tenant dan channel
+- Daftar percakapan dengan pagination offset dan penyaringan di sisi server
 - Alur assignment oleh admin dan reply oleh agent
 - Eskalasi ticket dengan aturan satu conversation maksimal satu ticket
 - Update status ticket khusus admin
@@ -94,7 +100,7 @@ flowchart TB
 
 Catatan tambahan:
 
-- Payload webhook sengaja mewajibkan `channel_key` agar simulasi multi-channel eksplisit. Ini sedikit lebih ketat daripada payload minimal di brief, tetapi tetap sejalan dengan flow channel ke conversation.
+- Payload webhook sengaja mewajibkan `channel_key` agar simulasi multi-channel menjadi lebih eksplisit. Pendekatan ini sedikit lebih ketat daripada payload minimal di brief, tetapi tetap sejalan dengan alur channel ke percakapan.
 
 ## Prasyarat
 
@@ -125,43 +131,39 @@ URL lokal utama:
 - Swagger UI: `http://localhost:8080/swagger`
 - RabbitMQ management: `http://localhost:15672`
 
-> Catatan: file nyata `.env`, `.env.compose`, `backend/.env`, dan `frontend/.env` dipakai untuk pengujian lokal dan sudah diabaikan oleh git.
->
-> `make dev` menyalakan stack penuh di background. Backend juga otomatis menerapkan migration saat startup, dan pada `APP_ENV=development` demo tenant, user, channel, serta sample data akan di-ensure tanpa workflow seed terpisah. Setelah reset volume MySQL lokal, akun demo akan muncul lagi tanpa perlu `make seed` rutin.
-
 ## Ringkasan Environment
 
-Workflow lokal memakai dua file env di root:
+Alur kerja lokal menggunakan dua file env di root:
 
 - `.env` untuk nilai shared dan secret lokal
 - `.env.compose` untuk wiring internal container di compose
 
 Ringkasan variabel yang paling penting untuk reviewer:
 
-| Variabel            | Default                                                  | Fungsi                                                                                            |
-| ------------------- | -------------------------------------------------------- | ------------------------------------------------------------------------------------------------- |
-| `APP_ENV`           | `development`                                            | Menentukan mode runtime backend dan worker                                                        |
-| `BACKEND_PORT`      | `8080`                                                   | Port API pada host                                                                                |
-| `FRONTEND_PORT`     | `5173`                                                   | Port UI pada host                                                                                 |
-| `MYSQL_DSN`         | `sociomile:sociomile@tcp(localhost:13306)/sociomile?...` | DSN host-side untuk migrate, seed, dan run backend                                                |
-| `REDIS_ADDR`        | `localhost:16379`                                        | Redis host-side untuk cache dan rate limit                                                        |
-| `RABBITMQ_URL`      | `amqp://guest:guest@localhost:5672/`                     | URL broker untuk backend dan worker                                                               |
-| `JWT_SECRET`        | `sociomile-local-dev-secret`                             | Secret signing JWT                                                                                |
-| `ACCESS_TOKEN_TTL`  | `15m`                                                    | TTL access token                                                                                  |
-| `VITE_API_BASE_URL` | `http://localhost:8080/api/v1`                           | Base URL API pada browser                                                                         |
-| `VITE_APP_VERSION`  | auto-generated                                           | Override versi build frontend; jika kosong Vite memakai versi `package.json` plus timestamp build |
-| `SWAGGER_FILE`      | `./docs/openapi.yaml`                                    | File OpenAPI statis yang diserve backend                                                          |
+| Variabel            | Default                                                  | Fungsi                                                                                                                  |
+| ------------------- | -------------------------------------------------------- | ----------------------------------------------------------------------------------------------------------------------- |
+| `APP_ENV`           | `development`                                            | Menentukan mode runtime backend dan worker                                                                              |
+| `BACKEND_PORT`      | `8080`                                                   | Port API pada host                                                                                                      |
+| `FRONTEND_PORT`     | `5173`                                                   | Port UI pada host                                                                                                       |
+| `MYSQL_DSN`         | `sociomile:sociomile@tcp(localhost:13306)/sociomile?...` | DSN host-side untuk migrate, seed, dan run backend                                                                      |
+| `REDIS_ADDR`        | `localhost:16379`                                        | Redis host-side untuk cache dan rate limit                                                                              |
+| `RABBITMQ_URL`      | `amqp://guest:guest@localhost:5672/`                     | URL broker untuk backend dan worker                                                                                     |
+| `JWT_SECRET`        | `sociomile-local-dev-secret`                             | Secret signing JWT                                                                                                      |
+| `ACCESS_TOKEN_TTL`  | `15m`                                                    | TTL access token                                                                                                        |
+| `VITE_API_BASE_URL` | `http://localhost:8080/api/v1`                           | Base URL API pada browser                                                                                               |
+| `VITE_APP_VERSION`  | auto-generated                                           | Menimpa versi build frontend; jika dikosongkan, Vite menggunakan versi dari `package.json` ditambah timestamp build     |
+| `SWAGGER_FILE`      | `./docs/openapi.yaml`                                    | File OpenAPI statis yang diserve backend                                                                                |
 
 Daftar lengkap environment variables ada di [docs/REFERENCE.md](docs/REFERENCE.md).
 
 ## Perilaku Update Frontend
 
-- Asset JS dan CSS hasil build sudah memakai nama file hashed dari Vite.
-- Build frontend juga menerbitkan `version.json` dan metadata build agar UI dapat mendeteksi adanya build baru.
-- Saat manifest tersebut menunjukkan versi yang lebih baru, operator akan melihat toast untuk refresh normal dan mengambil bundle terbaru tanpa perlu hard refresh manual.
-- Jika ingin mengunci versi rollout, set `VITE_APP_VERSION` saat build frontend atau `COMPOSE_VITE_APP_VERSION` pada workflow compose.
-- Untuk deploy production-like, cache `/assets/*` boleh immutable, tetapi `index.html` dan `version.json` sebaiknya memakai revalidation atau `no-store`.
-- Pada mode development, monitor update dimatikan dan Vite HMR tetap menangani perubahan lokal.
+- Aset JS dan CSS hasil build sudah menggunakan nama file hashed dari Vite.
+- Build frontend juga menghasilkan `version.json` dan metadata build agar UI dapat mendeteksi adanya versi terbaru.
+- Saat manifest tersebut menunjukkan versi yang lebih baru, operator akan melihat notifikasi (toast) yang dapat diklik untuk melakukan refresh biasa dan memuat bundle terbaru tanpa perlu hard refresh manual.
+- Jika ingin mengunci versi rollout, atur `VITE_APP_VERSION` saat build frontend atau `COMPOSE_VITE_APP_VERSION` pada alur compose.
+- Untuk deployment mirip production, cache `/assets/*` boleh bersifat immutable, tetapi `index.html` dan `version.json` sebaiknya menggunakan revalidation atau `no-store`.
+- Pada mode development, pemantau pembaruan dinonaktifkan dan Vite HMR tetap menangani perubahan lokal.
 
 ## Akun Demo
 
@@ -211,11 +213,11 @@ Halaman login sekarang menampilkan shortcut cepat untuk role `admin` dan `agent`
 
 ## Asumsi dan Trade-Off
 
-- Monorepo dipilih agar backend, frontend, worker, dan infrastruktur mudah direview dalam satu repository.
-- Backend memakai row-based multi-tenancy pada shared schema, bukan database terpisah per tenant.
-- Swagger disajikan dari file OpenAPI statis agar deliverable mudah diinspeksi tanpa generator tambahan.
-- Frontend sengaja memakai local state dan utility request yang ringan supaya fokus take-home tetap pada flow produk.
-- Stack compose tetap memakai Vite dev server untuk mempercepat review lokal, walaupun itu bukan setup frontend production-grade.
+- Monorepo dipilih agar backend, frontend, worker, dan infrastruktur mudah diulas dalam satu repository.
+- Backend menggunakan row-based multi-tenancy pada shared schema, bukan database terpisah per tenant.
+- Swagger disajikan dari file OpenAPI statis agar deliverable mudah diperiksa tanpa generator tambahan.
+- Frontend sengaja menggunakan state lokal dan utility request yang ringan agar fokus take-home tetap pada alur produk.
+- Stack compose tetap menggunakan Vite dev server untuk mempercepat tinjauan lokal, meskipun bukan setup frontend production-grade.
 
 ## Dokumentasi Lanjutan
 
@@ -227,6 +229,6 @@ Halaman login sekarang menampilkan shortcut cepat untuk role `admin` dan `agent`
 ## Keterbatasan Saat Ini
 
 - Target full coverage dari brief belum tercapai; detail snapshot coverage ada di [docs/TESTING.md](docs/TESTING.md)
-- Snapshot clean terbaru yang tervalidasi sekarang adalah backend `95.6%` statement coverage dan frontend `97.88%` statement coverage dengan `86.79%` branch coverage serta `85.07%` function coverage; detail lengkap ada di [docs/TESTING.md](docs/TESTING.md)
-- Area coverage backend yang masih tersisa sekarang terutama ada di cabang error seed loading, sebagian helper repository tenant-aware, serta beberapa path validasi service seperti transaksi webhook dan eskalasi ticket
-- Frontend di stack compose masih memakai Vite dev server, belum web server statis production-grade
+- Hasil coverage bersih terbaru yang terverifikasi: backend `95.6%` statement coverage dan frontend `97.88%` statement coverage dengan `86.79%` branch coverage serta `85.07%` function coverage; detail lengkap ada di [docs/TESTING.md](docs/TESTING.md)
+- Area backend dengan coverage terendah saat ini terutama berada di cabang error saat memuat seed, sebagian helper repository tenant-aware, serta beberapa jalur validasi service seperti kegagalan transaksi webhook dan eskalasi tiket
+- Frontend di stack compose masih menggunakan Vite dev server, belum web server statis production-grade

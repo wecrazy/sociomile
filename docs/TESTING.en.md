@@ -16,7 +16,7 @@ make coverage
 cd frontend && npm run build
 ```
 
-When this document was rechecked, the following commands completed successfully:
+When this document was last reviewed, the following commands completed successfully:
 
 - `make backend-test`
 - `make frontend-test`

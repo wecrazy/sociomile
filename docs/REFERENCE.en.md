@@ -15,7 +15,7 @@ This document summarizes the repository layout, primary commands, environment va
 
 ## Reviewer Quick Reference
 
-### Fast Review Path
+### Fast-Track Review Path
 
 1. `git clone https://github.com/wecrazy/sociomile.git`
 1. `cd sociomile`
@@ -123,7 +123,7 @@ The local workflow uses two root env files:
 
 If any compose-required variable is missing, `make dev`, `make build`, and `podman-compose config` fail immediately with an error that names the missing variable.
 
-Note for local MySQL: the MySQL container only provisions the database and user from env on the first startup of an empty data volume. If `MYSQL_DATABASE`, `MYSQL_USER`, or the password changes after `sociomile_mysql_data` already exists, remove that volume and restart the stack so provisioning can run again.
+Note for local MySQL: the MySQL container only provisions the database and user from env on the first startup of an empty data volume. If `MYSQL_DATABASE`, `MYSQL_USER`, or the password changes after `sociomile_mysql_data` already exists, remove that volume and restart the stack so provisioning runs again.
 
 ### Running Compose Directly
 

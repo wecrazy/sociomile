@@ -2,7 +2,7 @@
 
 Bahasa Indonesia | [English](ARCHITECTURE.en.md) | [README](../README.md)
 
-Dokumen ini menjelaskan struktur aplikasi, flow utama, pendekatan multi-tenancy, dan trade-off implementasi.
+Dokumen ini menjelaskan struktur aplikasi, alur utama, pendekatan multi-tenancy, dan pertimbangan implementasi.
 
 ## Flow Utama
 
@@ -54,7 +54,7 @@ flowchart TB
 
 ## Topologi Runtime
 
-- API menangani autentikasi, lifecycle conversation, lifecycle ticket, dan Swagger
+- API menangani autentikasi, siklus hidup percakapan, siklus hidup tiket, dan Swagger
 - Worker membaca outbox event yang pending lalu mempublish ke RabbitMQ
 - MySQL menjadi source of truth untuk tenant, user, channel, conversation, message, ticket, log, dan outbox
 - Redis dipakai untuk rate limiting webhook serta cache list conversation dan ticket
@@ -81,7 +81,7 @@ Aturan penting yang diimplementasikan pada service layer:
 - Hanya agent yang boleh melakukan eskalasi
 - Satu conversation hanya boleh menghasilkan maksimal satu ticket
 - Hanya admin yang boleh mengubah status ticket
-- Query conversation dan ticket selalu dibatasi oleh tenant di repository layer
+- Query percakapan dan tiket selalu dibatasi oleh tenant di repository layer
 
 ## Pendekatan Multi-Tenancy
 
@@ -95,7 +95,7 @@ Aturan penting yang diimplementasikan pada service layer:
 
 - Domain event disimpan ke `activity_logs` dan `outbox_events`
 - Worker mempublish record outbox yang pending ke RabbitMQ dengan event type sebagai routing key
-- Event family yang dipakai mencakup `conversation.created`, `channel.message.received`, `conversation.assigned`, `conversation.replied`, `conversation.closed`, `conversation.escalated`, `ticket.created`, dan `ticket.status.updated`
+- Kelompok event yang dipakai mencakup `conversation.created`, `channel.message.received`, `conversation.assigned`, `conversation.replied`, `conversation.closed`, `conversation.escalated`, `ticket.created`, dan `ticket.status.updated`
 - Redis dipakai untuk helper cache list endpoint agar invalidasi tidak memperluas write ke database utama
 
 ## Catatan Frontend
@@ -108,9 +108,9 @@ Aturan penting yang diimplementasikan pada service layer:
 
 ## Asumsi dan Trade-Off
 
-- Monorepo dipilih agar backend, frontend, worker, dan infrastruktur mudah direview dalam satu repository
-- Backend memakai row-based multi-tenancy dalam satu schema bersama, bukan database terpisah per tenant
-- Swagger disajikan dari file OpenAPI statis, bukan generator anotasi, agar deliverable mudah diinspeksi
-- Frontend sengaja memakai state dan utility request yang ringan agar fokus take-home tetap pada flow bisnis
-- Container backend dibangun menjadi binary agar startup di Podman konsisten dan tidak compile ulang setiap kali run
+- Monorepo dipilih agar backend, frontend, worker, dan infrastruktur mudah diulas dalam satu repository
+- Backend menggunakan row-based multi-tenancy dalam satu schema bersama, bukan database terpisah per tenant
+- Swagger disajikan dari file OpenAPI statis, bukan generator anotasi, agar deliverable mudah diperiksa
+- Frontend sengaja menggunakan state dan utility request yang ringan agar fokus take-home tetap pada alur bisnis
+- Container backend dibangun menjadi binary agar startup di Podman konsisten dan tidak mengompilasi ulang setiap kali dijalankan
 - Rootless Podman membutuhkan RabbitMQ berjalan pada named volume eksplisit dengan uid `999`, dan worker menunggu broker siap daripada mengandalkan urutan startup compose

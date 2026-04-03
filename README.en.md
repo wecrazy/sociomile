@@ -22,7 +22,13 @@
 
 Sociomile is a fullstack take-home implementation of a multi-tenant omnichannel support flow:
 
-`Channel webhook -> Conversation -> Assignment -> Agent reply -> Ticket escalation`
+<!-- markdownlint-disable MD033 -->
+<div align="center">
+
+**`Channel webhook`** &nbsp;→&nbsp; **`Conversation`** &nbsp;→&nbsp; **`Assignment`** &nbsp;→&nbsp; **`Agent reply`** &nbsp;→&nbsp; **`Ticket escalation`**
+
+</div>
+<!-- markdownlint-enable MD033 -->
 
 The repository ships a Go Fiber v3 backend, a separate async worker, a React + Vite operator UI, MySQL, Redis, and RabbitMQ, all wrapped by a Podman-compatible local workflow.
 
@@ -125,10 +131,6 @@ Primary local URLs:
 - Swagger UI: `http://localhost:8080/swagger`
 - RabbitMQ management: `http://localhost:15672`
 
-> Note: real local files `.env`, `.env.compose`, `backend/.env`, and `frontend/.env` are intended for local testing and are ignored by git.
->
-> `make dev` starts the full stack in the background. The backend also applies migrations automatically during startup, and in `APP_ENV=development` it ensures the demo tenants, users, channels, and sample data without a separate seed workflow. After resetting the local MySQL volume, the demo accounts come back without needing routine `make seed` runs.
-
 ## Environment Summary
 
 The local workflow uses two root env files:
@@ -160,7 +162,7 @@ The full environment reference lives in [docs/REFERENCE.en.md](docs/REFERENCE.en
 - The frontend build also emits `version.json` and build metadata so the UI can detect newer deployments.
 - When that manifest reports a newer version, operators get a toast that prompts a normal refresh to pick up the latest bundles without relying on a manual hard refresh.
 - If you want explicit rollout versioning, set `VITE_APP_VERSION` during the frontend build or `COMPOSE_VITE_APP_VERSION` in the compose workflow.
-- For production-style deploys, `/assets/*` can stay immutable, but `index.html` and `version.json` should use revalidation or `no-store` caching.
+- For production-grade deployments, `/assets/*` can stay immutable, but `index.html` and `version.json` should use revalidation or `no-store` caching.
 - In development mode, the update monitor is disabled and Vite HMR continues to handle local changes.
 
 ## Demo Accounts
@@ -227,6 +229,6 @@ The login page now shows quick-fill shortcuts for the Acme `admin` and `agent` r
 ## Known Gaps
 
 - The brief's full-coverage target is not met yet; the current coverage snapshot lives in [docs/TESTING.en.md](docs/TESTING.en.md)
-- The latest verified clean snapshot is now backend `95.6%` statement coverage and frontend `97.88%` statement coverage with `86.79%` branch coverage and `85.07%` function coverage; the detailed breakdown lives in [docs/TESTING.en.md](docs/TESTING.en.md)
+- The latest verified clean snapshot shows backend `95.6%` statement coverage and frontend `97.88%` statement coverage with `86.79%` branch coverage and `85.07%` function coverage; the detailed breakdown lives in [docs/TESTING.en.md](docs/TESTING.en.md)
 - Remaining backend gaps now mostly sit in seed-loading error branches, a subset of tenant-aware repository helpers, and a few service validation paths such as webhook transaction failures and ticket escalation edge cases
 - The compose stack still uses the Vite development server rather than a production static web server
