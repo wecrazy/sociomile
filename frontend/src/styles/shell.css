@@ -227,6 +227,11 @@
   box-shadow: none;
 }
 
+.sidebar select option {
+  background-color: #0d1d23;
+  color: #f7eee4;
+}
+
 .sidebar .button.ghost {
   background: rgba(255, 255, 255, 0.08);
   border-color: rgba(255, 255, 255, 0.14);
