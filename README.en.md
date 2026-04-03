@@ -14,7 +14,7 @@
         <img src="https://img.shields.io/badge/MySQL-8.4-4479A1?logo=mysql&logoColor=white" alt="MySQL 8.4" />
         <img src="https://img.shields.io/badge/Redis-7.4-DC382D?logo=redis&logoColor=white" alt="Redis 7.4" />
         <img src="https://img.shields.io/badge/RabbitMQ-3.13-FF6600?logo=rabbitmq&logoColor=white" alt="RabbitMQ 3.13" />
-        <img src="https://img.shields.io/badge/Podman-Compose-892CA0?logo=podman&logoColor=white" alt="Podman Compose" />
+        <img src="https://img.shields.io/badge/Podman%20%7C%20Docker-Compose-892CA0?logo=podman&logoColor=white" alt="Podman / Docker Compose" />
     </p>
     <p><a href="README.md">Bahasa Indonesia</a> | English</p>
 </div>
@@ -30,13 +30,13 @@ Sociomile is a fullstack take-home implementation of a multi-tenant omnichannel 
 </div>
 <!-- markdownlint-enable MD033 -->
 
-The repository ships a Go Fiber v3 backend, a separate async worker, a React + Vite operator UI, MySQL, Redis, and RabbitMQ, all wrapped by a Podman-compatible local workflow.
+The repository ships a Go Fiber v3 backend, a separate async worker, a React + Vite operator UI, MySQL, Redis, and RabbitMQ, all wrapped by a Podman/Docker-compatible local workflow.
 
 ## Stack And License
 
 - Project license: Apache License 2.0.
 - Core application stack: Go 1.26, Go Fiber v3, GORM, React 19, Vite 6, and TypeScript 5.
-- Local infrastructure stack: MySQL 8.4, Redis 7.4, RabbitMQ 3.13, and Podman Compose.
+- Local infrastructure stack: MySQL 8.4, Redis 7.4, RabbitMQ 3.13, and Podman Compose (Docker Compose also supported as a fallback).
 - Selected upstream licenses: Go Fiber `MIT`, GORM `MIT`, React `MIT`, and Vite `MIT`. Container infrastructure services follow their own upstream licenses.
 
 ## Delivered Scope
@@ -106,7 +106,8 @@ Additional note:
 
 - Go 1.26+
 - Node.js 22+
-- Podman 4.9+ with either `podman compose` or `podman-compose`
+- Podman 4.9+ with either `podman compose` or `podman-compose` *(preferred)*
+- **or** Docker 24+ with either `docker compose` or `docker-compose` *(fallback)*
 
 ## Quick Start
 

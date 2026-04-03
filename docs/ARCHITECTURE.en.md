@@ -112,5 +112,5 @@ Key rules implemented in the service layer:
 - The backend uses row-based multi-tenancy in a shared schema instead of separate databases per tenant
 - Swagger is served from a static OpenAPI file instead of generated annotations to keep the deliverable easy to inspect
 - The frontend intentionally uses lightweight local state and request utilities to keep the take-home focused on product flow
-- Backend containers are built into binaries so Podman startup is predictable and does not recompile on every run
+- Backend containers are built into binaries so container startup is predictable and does not recompile on every run
 - Rootless Podman required RabbitMQ to run on an explicit named volume as uid `999`, and the worker waits for broker readiness instead of relying on compose startup ordering alone

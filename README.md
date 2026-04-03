@@ -14,7 +14,7 @@
         <img src="https://img.shields.io/badge/MySQL-8.4-4479A1?logo=mysql&logoColor=white" alt="MySQL 8.4" />
         <img src="https://img.shields.io/badge/Redis-7.4-DC382D?logo=redis&logoColor=white" alt="Redis 7.4" />
         <img src="https://img.shields.io/badge/RabbitMQ-3.13-FF6600?logo=rabbitmq&logoColor=white" alt="RabbitMQ 3.13" />
-        <img src="https://img.shields.io/badge/Podman-Compose-892CA0?logo=podman&logoColor=white" alt="Podman Compose" />
+        <img src="https://img.shields.io/badge/Podman%20%7C%20Docker-Compose-892CA0?logo=podman&logoColor=white" alt="Podman / Docker Compose" />
     </p>
     <p>Bahasa Indonesia | <a href="README.en.md">English</a></p>
 </div>
@@ -30,13 +30,13 @@ Sociomile adalah implementasi fullstack take-home untuk alur dukungan omnichanne
 </div>
 <!-- markdownlint-enable MD033 -->
 
-Repository ini berisi backend Go Fiber v3, worker async terpisah, operator UI berbasis React + Vite, MySQL, Redis, dan RabbitMQ, semuanya dibungkus dalam lingkungan lokal yang kompatibel dengan Podman.
+Repository ini berisi backend Go Fiber v3, worker async terpisah, operator UI berbasis React + Vite, MySQL, Redis, dan RabbitMQ, semuanya dibungkus dalam lingkungan lokal yang kompatibel dengan Podman atau Docker.
 
 ## Stack dan Lisensi
 
 - Lisensi project: Apache License 2.0.
 - Stack inti aplikasi: Go 1.26, Go Fiber v3, GORM, React 19, Vite 6, dan TypeScript 5.
-- Stack infrastruktur lokal: MySQL 8.4, Redis 7.4, RabbitMQ 3.13, dan Podman Compose.
+- Stack infrastruktur lokal: MySQL 8.4, Redis 7.4, RabbitMQ 3.13, dan Podman Compose (Docker Compose juga didukung sebagai fallback).
 - Lisensi upstream terpilih: Go Fiber `MIT`, GORM `MIT`, React `MIT`, dan Vite `MIT`. Service infrastruktur container mengikuti lisensi upstream masing-masing.
 
 ## Cakupan Implementasi
@@ -106,7 +106,8 @@ Catatan tambahan:
 
 - Go 1.26+
 - Node.js 22+
-- Podman 4.9+ dengan `podman compose` atau `podman-compose`
+- Podman 4.9+ dengan `podman compose` atau `podman-compose` *(utama)*
+- **atau** Docker 24+ dengan `docker compose` atau `docker-compose` *(fallback)*
 
 ## Mulai Cepat
 

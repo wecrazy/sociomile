@@ -112,5 +112,5 @@ Aturan penting yang diimplementasikan pada service layer:
 - Backend menggunakan row-based multi-tenancy dalam satu schema bersama, bukan database terpisah per tenant
 - Swagger disajikan dari file OpenAPI statis, bukan generator anotasi, agar deliverable mudah diperiksa
 - Frontend sengaja menggunakan state dan utility request yang ringan agar fokus take-home tetap pada alur bisnis
-- Container backend dibangun menjadi binary agar startup di Podman konsisten dan tidak mengompilasi ulang setiap kali dijalankan
+- Container backend dibangun menjadi binary agar startup container lebih konsisten dan tidak mengompilasi ulang setiap kali dijalankan
 - Rootless Podman membutuhkan RabbitMQ berjalan pada named volume eksplisit dengan uid `999`, dan worker menunggu broker siap daripada mengandalkan urutan startup compose

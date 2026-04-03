@@ -121,13 +121,17 @@ File `backend/.env` dan `frontend/.env` tetap dipakai untuk menjalankan service 
 | `COMPOSE_VITE_APP_NAME` | `Sociomile` | Nama aplikasi frontend di compose |
 | `COMPOSE_SWAGGER_FILE` | `./docs/openapi.yaml` | Lokasi file OpenAPI yang dipakai container backend |
 
-Jika ada variabel yang dibutuhkan compose belum diisi, `make dev`, `make build`, dan `podman-compose config` akan langsung gagal dengan pesan error yang menyebutkan nama variabel yang kurang.
+Jika ada variabel yang dibutuhkan compose belum diisi, `make dev`, `make build`, dan semua invokasi compose langsung akan langsung gagal dengan pesan error yang menyebutkan nama variabel yang kurang.
 
 Catatan untuk MySQL lokal: container MySQL hanya membuat database dan user dari env ketika volume data masih kosong. Jika `MYSQL_DATABASE`, `MYSQL_USER`, atau password diubah setelah volume `sociomile_mysql_data` sudah ada, hapus volume tersebut, lalu jalankan ulang stack agar proses provisioning berjalan kembali.
 
 ### Menjalankan Compose Secara Langsung
 
-Jika tidak ingin lewat Makefile, source dulu `.env` lalu berikan `.env.compose` ke compose command:
+Jika tidak ingin lewat Makefile, source dulu `.env` lalu berikan `.env.compose` ke compose command.
+
+Makefile mendeteksi runtime yang tersedia secara otomatis dengan urutan prioritas: `podman compose` → `podman-compose` → `docker compose` → `docker-compose`. Contoh di bawah mengikuti urutan yang sama.
+
+**Podman (plugin):**
 
 ```bash
 set -a
@@ -137,13 +141,34 @@ podman compose --env-file ./.env.compose config
 podman compose --env-file ./.env.compose up --build
 ```
 
-Jika environment Anda memakai `podman-compose` secara langsung, flag `--env-file` yang sama tetap berlaku:
+**Podman Compose (standalone):**
 
 ```bash
 set -a
 . ./.env
 set +a
 podman-compose --env-file ./.env.compose config
+podman-compose --env-file ./.env.compose up --build
+```
+
+**Docker (plugin — fallback):**
+
+```bash
+set -a
+. ./.env
+set +a
+docker compose --env-file ./.env.compose config
+docker compose --env-file ./.env.compose up --build
+```
+
+**Docker Compose (standalone — fallback):**
+
+```bash
+set -a
+. ./.env
+set +a
+docker-compose --env-file ./.env.compose config
+docker-compose --env-file ./.env.compose up --build
 ```
 
 ### Variabel Runtime Backend
