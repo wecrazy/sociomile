@@ -34,13 +34,15 @@ func New(cfg config.Config, logger *slog.Logger, healthReporter *health.Reporter
 	app.Use(func(c fiber.Ctx) error {
 		startedAt := time.Now()
 		err := c.Next()
-		logger.Info("request completed",
-			slog.String("request_id", middleware.CurrentRequestID(c)),
-			slog.String("method", c.Method()),
-			slog.String("path", c.Path()),
-			slog.Int("status", c.Response().StatusCode()),
-			slog.Duration("duration", time.Since(startedAt)),
-		)
+		if c.Path() != "/health" {
+			logger.Info("request completed",
+				slog.String("request_id", middleware.CurrentRequestID(c)),
+				slog.String("method", c.Method()),
+				slog.String("path", c.Path()),
+				slog.Int("status", c.Response().StatusCode()),
+				slog.Duration("duration", time.Since(startedAt)),
+			)
+		}
 		return err
 	})
 
