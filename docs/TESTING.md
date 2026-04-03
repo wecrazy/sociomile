@@ -61,56 +61,56 @@ Saat dokumen ini ditinjau ulang, perintah berikut berhasil dijalankan:
 
 1. Jalankan stack lokal, migration, dan seed.
 
-```bash
-make dev
-make migrate
-make seed
-```
+   ```bash
+   make dev
+   make migrate
+   make seed
+   ```
 
 1. Buka service lokal.
 
-- Frontend: `http://localhost:5173`
-- Swagger UI: `http://localhost:8080/swagger`
+   - Frontend: `http://localhost:5173`
+   - Swagger UI: `http://localhost:8080/swagger`
 
 1. Login sebagai admin.
 
-- Email: `alice.admin@acme.local`
-- Password: `Password123!`
+   - Email: `alice.admin@acme.local`
+   - Password: `Password123!`
 
 1. Buat conversation baru lewat webhook simulasi.
 
-```bash
-curl -X POST http://localhost:8080/api/v1/channel/webhook \
-  -H "Content-Type: application/json" \
-  -d '{
-    "tenant_id": "11111111-1111-1111-1111-111111111111",
-    "channel_key": "whatsapp",
-    "customer_external_id": "cust-manual-001",
-    "customer_name": "Manual QA",
-    "message": "Halo, saya butuh bantuan"
-  }'
-```
+   ```bash
+   curl -X POST http://localhost:8080/api/v1/channel/webhook \
+     -H "Content-Type: application/json" \
+     -d '{
+       "tenant_id": "11111111-1111-1111-1111-111111111111",
+       "channel_key": "whatsapp",
+       "customer_external_id": "cust-manual-001",
+       "customer_name": "Manual QA",
+       "message": "Halo, saya butuh bantuan"
+     }'
+   ```
 
 1. Verifikasi sebagai admin di UI.
 
-- Conversation baru muncul di daftar conversation
-- Admin dapat assign conversation ke `Aaron Agent`
+   - Conversation baru muncul di daftar conversation
+   - Admin dapat assign conversation ke `Aaron Agent`
 
 1. Login sebagai agent.
 
-- Email: `aaron.agent@acme.local`
-- Password: `Password123!`
+   - Email: `aaron.agent@acme.local`
+   - Password: `Password123!`
 
 1. Verifikasi sebagai agent di UI.
 
-- Agent dapat membuka conversation yang di-assign
-- Agent dapat mengirim reply
-- Agent dapat melakukan eskalasi menjadi ticket
+   - Agent dapat membuka conversation yang di-assign
+   - Agent dapat mengirim reply
+   - Agent dapat melakukan eskalasi menjadi ticket
 
 1. Login kembali sebagai admin dan verifikasi ticket.
 
-- Ticket baru muncul di daftar ticket
-- Admin dapat mengubah status ticket menjadi `in_progress`, `resolved`, atau `closed`
+   - Ticket baru muncul di daftar ticket
+   - Admin dapat mengubah status ticket menjadi `in_progress`, `resolved`, atau `closed`
 
 ## Gap Pengujian yang Masih Ada
 

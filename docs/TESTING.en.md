@@ -61,56 +61,56 @@ When this document was last reviewed, the following commands completed successfu
 
 1. Start the local stack, apply migrations, and load demo data.
 
-```bash
-make dev
-make migrate
-make seed
-```
+   ```bash
+   make dev
+   make migrate
+   make seed
+   ```
 
 1. Open the local services.
 
-- Frontend: `http://localhost:5173`
-- Swagger UI: `http://localhost:8080/swagger`
+   - Frontend: `http://localhost:5173`
+   - Swagger UI: `http://localhost:8080/swagger`
 
 1. Sign in as an admin.
 
-- Email: `alice.admin@acme.local`
-- Password: `Password123!`
+   - Email: `alice.admin@acme.local`
+   - Password: `Password123!`
 
 1. Create a fresh conversation through the simulated webhook.
 
-```bash
-curl -X POST http://localhost:8080/api/v1/channel/webhook \
-  -H "Content-Type: application/json" \
-  -d '{
-    "tenant_id": "11111111-1111-1111-1111-111111111111",
-    "channel_key": "whatsapp",
-    "customer_external_id": "cust-manual-001",
-    "customer_name": "Manual QA",
-    "message": "Hello, I need help"
-  }'
-```
+   ```bash
+   curl -X POST http://localhost:8080/api/v1/channel/webhook \
+     -H "Content-Type: application/json" \
+     -d '{
+       "tenant_id": "11111111-1111-1111-1111-111111111111",
+       "channel_key": "whatsapp",
+       "customer_external_id": "cust-manual-001",
+       "customer_name": "Manual QA",
+       "message": "Hello, I need help"
+     }'
+   ```
 
 1. Verify the admin flow in the UI.
 
-- The new conversation appears in the conversation list
-- The admin can assign the conversation to `Aaron Agent`
+   - The new conversation appears in the conversation list
+   - The admin can assign the conversation to `Aaron Agent`
 
 1. Sign in as an agent.
 
-- Email: `aaron.agent@acme.local`
-- Password: `Password123!`
+   - Email: `aaron.agent@acme.local`
+   - Password: `Password123!`
 
 1. Verify the agent flow in the UI.
 
-- The agent can open the assigned conversation
-- The agent can send a reply
-- The agent can escalate the conversation into a ticket
+   - The agent can open the assigned conversation
+   - The agent can send a reply
+   - The agent can escalate the conversation into a ticket
 
 1. Sign back in as an admin and verify the ticket flow.
 
-- The new ticket appears in the ticket list
-- The admin can move the ticket to `in_progress`, `resolved`, or `closed`
+   - The new ticket appears in the ticket list
+   - The admin can move the ticket to `in_progress`, `resolved`, or `closed`
 
 ## Remaining Testing Gaps
 
