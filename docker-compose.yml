@@ -99,10 +99,13 @@ services:
     environment:
       APP_ENV: ${APP_ENV:?missing APP_ENV in .env}
       MYSQL_DSN: ${COMPOSE_MYSQL_DSN:?missing COMPOSE_MYSQL_DSN in .env.compose}
+      REDIS_ADDR: ${COMPOSE_REDIS_ADDR:?missing COMPOSE_REDIS_ADDR in .env.compose}
       RABBITMQ_URL: ${COMPOSE_RABBITMQ_URL:?missing COMPOSE_RABBITMQ_URL in .env.compose}
       LOG_LEVEL: ${LOG_LEVEL:?missing LOG_LEVEL in .env}
     depends_on:
       mysql:
+        condition: service_healthy
+      redis:
         condition: service_healthy
       rabbitmq:
         condition: service_healthy
